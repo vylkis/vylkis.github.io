@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VYLKIS — Музыка</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%230a0a0a'/><text x='50%25' y='55%25' font-family='Oswald,sans-serif' font-size='38' font-weight='700' fill='%23ff1a1a' text-anchor='middle' dominant-baseline='middle'>V</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --card: #0d0d0d;
+            --red: #ff1a1a;
+            --text: #cccccc;
+            --muted: #666666;
+            --border: rgba(255,255,255,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        a { text-decoration: none; }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 60px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(5,5,5,0.9);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: #fff;
+        }
+        .logo span { color: var(--red); }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+        nav ul li a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover { color: #fff; }
+        nav ul li a.active { color: var(--red); }
+
+        .content {
+            padding: 150px 60px 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .page-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .page-title span { color: var(--red); }
+
+        .track-player {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            transition: border-color 0.3s;
+        }
+        .track-player:hover {
+            border-color: #ffffff15;
+        }
+        .cover-small {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .track-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .track-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+        .track-artist {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .progress-area {
+            margin-bottom: 12px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #222;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #fff;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #555;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .play-btn {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 5px;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+        .play-btn:hover { color: #fff; }
+
+        .volume-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .volume-btn {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            transition: color 0.3s;
+            filter: grayscale(1);
+        }
+        .volume-btn:hover {
+            color: #fff;
+            filter: grayscale(0);
+        }
+        .volume-popup {
+            position: absolute;
+            bottom: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .volume-popup.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .volume-slider-vertical {
+            -webkit-appearance: slider-vertical;
+            width: 6px;
+            height: 100px;
+            background: #333;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+            accent-color: #fff;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #555;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: #999; }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #333;
+            font-size: 11px;
+            letter-spacing: 3px;
+            border-top: 1px solid var(--border);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">VYL<span>KIS</span></a>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="music.html" class="active">Музыка</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1 class="page-title">МУЗЫ<span>КА</span></h1>
+
+        <div class="track-player" data-audio="audio/repressed.mp3">
+            <img src="images/repressed.jpg" alt="REPRESSED" class="cover-small">
+            <div class="track-info">
+                <div class="track-name">REPRESSED</div>
+                <div class="track-artist">VYLKIS & WRSXXQW · Phonk</div>
+                <div class="progress-area">
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                    <div class="time-row">
+                        <span class="current-time">0:00</span>
+                        <span class="total-time">0:00</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="play-btn">▶</button>
+                    <div class="volume-wrapper">
+                        <button class="volume-btn">🔈</button>
+                        <div class="volume-popup">
+                            <span style="color:#fff;font-size:10px;" class="vol-value">100%</span>
+                            <input type="range" class="volume-slider-vertical" min="0" max="100" value="100" orient="vertical">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="track-player" data-audio="audio/paralizik.mp3">
+            <img src="images/paralizik.jpg" alt="PARALIZIK" class="cover-small">
+            <div class="track-info">
+                <div class="track-name">PARALIZIK</div>
+                <div class="track-artist">VYLKIS · Phonk</div>
+                <div class="progress-area">
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                    <div class="time-row">
+                        <span class="current-time">0:00</span>
+                        <span class="total-time">0:00</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="play-btn">▶</button>
+                    <div class="volume-wrapper">
+                        <button class="volume-btn">🔈</button>
+                        <div class="volume-popup">
+                            <span style="color:#fff;font-size:10px;" class="vol-value">100%</span>
+                            <input type="range" class="volume-slider-vertical" min="0" max="100" value="100" orient="vertical">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="track-player" data-audio="audio/killxst.mp3">
+            <img src="images/killxst.jpg" alt="KILLXST" class="cover-small">
+            <div class="track-info">
+                <div class="track-name">KILLXST</div>
+                <div class="track-artist">VYLKIS · Electronic</div>
+                <div class="progress-area">
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                    <div class="time-row">
+                        <span class="current-time">0:00</span>
+                        <span class="total-time">0:00</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="play-btn">▶</button>
+                    <div class="volume-wrapper">
+                        <button class="volume-btn">🔈</button>
+                        <div class="volume-popup">
+                            <span style="color:#fff;font-size:10px;" class="vol-value">100%</span>
+                            <input type="range" class="volume-slider-vertical" min="0" max="100" value="100" orient="vertical">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="track-player" data-audio="audio/minonphonia.mp3">
+            <img src="images/minonphonia.jpg" alt="MINONPHONIA" class="cover-small">
+            <div class="track-info">
+                <div class="track-name">MINONPHONIA</div>
+                <div class="track-artist">VYLKIS · Phonk</div>
+                <div class="progress-area">
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                    <div class="time-row">
+                        <span class="current-time">0:00</span>
+                        <span class="total-time">0:00</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="play-btn">▶</button>
+                    <div class="volume-wrapper">
+                        <button class="volume-btn">🔈</button>
+                        <div class="volume-popup">
+                            <span style="color:#fff;font-size:10px;" class="vol-value">100%</span>
+                            <input type="range" class="volume-slider-vertical" min="0" max="100" value="100" orient="vertical">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link">← На главную</a>
+    </div>
+
+    <footer>© 2026 VYLKIS. ALL RIGHTS RESERVED.</footer>
+
+    <script>
+        document.querySelectorAll('.track-player').forEach(player => {
+            const audioSrc = player.dataset.audio;
+            const audio = new Audio(audioSrc);
+            const playBtn = player.querySelector('.play-btn');
+            const progressFill = player.querySelector('.progress-fill');
+            const progressBar = player.querySelector('.progress-bar');
+            const currentTimeEl = player.querySelector('.current-time');
+            const totalTimeEl = player.querySelector('.total-time');
+            const volumeBtn = player.querySelector('.volume-btn');
+            const volumePopup = player.querySelector('.volume-popup');
+            const volumeSlider = player.querySelector('.volume-slider-vertical');
+            const volValue = player.querySelector('.vol-value');
+            let isPlaying = false;
+
+            audio.addEventListener('loadedmetadata', () => {
+                totalTimeEl.textContent = formatTime(audio.duration);
+            });
+            audio.addEventListener('timeupdate', () => {
+                if (isNaN(audio.duration)) return;
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = progress + '%';
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            });
+            audio.addEventListener('ended', () => {
+                isPlaying = false;
+                playBtn.textContent = '▶';
+                progressFill.style.width = '0%';
+                currentTimeEl.textContent = '0:00';
+            });
+            playBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    playBtn.textContent = '▶';
+                } else {
+                    document.querySelectorAll('audio').forEach(a => { if (a !== audio) a.pause(); });
+                    audio.play();
+                    playBtn.textContent = '⏸';
+                }
+                isPlaying = !isPlaying;
+            });
+            progressBar.addEventListener('click', (e) => {
+                if (isNaN(audio.duration)) return;
+                const rect = progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = percent * audio.duration;
+            });
+            volumeSlider.addEventListener('input', () => {
+                audio.volume = volumeSlider.value / 100;
+                volValue.textContent = volumeSlider.value + '%';
+                updateVolumeIcon();
+            });
+            volumeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                volumePopup.classList.toggle('visible');
+            });
+            document.addEventListener('click', (e) => {
+                if (!player.querySelector('.volume-wrapper').contains(e.target)) {
+                    volumePopup.classList.remove('visible');
+                }
+            });
+            function updateVolumeIcon() {
+                const vol = audio.volume;
+                if (vol > 0.5) volumeBtn.textContent = '🔊';
+                else if (vol > 0) volumeBtn.textContent = '🔉';
+                else volumeBtn.textContent = '🔇';
+            }
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return min + ':' + (sec < 10 ? '0' : '') + sec;
+            }
+        });
+    </script>
+</body>
+</html>

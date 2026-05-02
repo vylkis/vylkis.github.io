@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VYLKIS — Контакты</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%230a0a0a'/><text x='50%25' y='55%25' font-family='Oswald,sans-serif' font-size='38' font-weight='700' fill='%23ff1a1a' text-anchor='middle' dominant-baseline='middle'>V</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --card: #0d0d0d;
+            --red: #ff1a1a;
+            --text: #cccccc;
+            --muted: #666666;
+            --border: rgba(255,255,255,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        a { text-decoration: none; }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 60px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(5,5,5,0.9);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: #fff;
+        }
+        .logo span { color: var(--red); }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+        nav ul li a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover { color: #fff; }
+        nav ul li a.active { color: var(--red); }
+
+        .content {
+            padding: 180px 60px 80px;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .page-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: #fff;
+            margin-bottom: 60px;
+        }
+        .page-title span { color: var(--red); }
+
+        .contact-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px 30px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+        .contact-card:hover {
+            border-color: #ffffff15;
+        }
+        .contact-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        .contact-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            letter-spacing: 5px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .contact-value {
+            font-size: 18px;
+            color: #fff;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+        .contact-value:hover {
+            color: var(--red);
+        }
+        .contact-sub {
+            font-size: 11px;
+            color: #444;
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #555;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: #999; }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #333;
+            font-size: 11px;
+            letter-spacing: 3px;
+            border-top: 1px solid var(--border);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">VYL<span>KIS</span></a>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="music.html">Музыка</a></li>
+            <li><a href="contacts.html" class="active">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1 class="page-title">КОНТ<span>АКТЫ</span></h1>
+
+        <div class="contact-card">
+            <div class="contact-icon">📧</div>
+            <div class="contact-label">Коллабы / Сотрудничество</div>
+            <a href="mailto:vylkis.booking@gmail.com" class="contact-value">vylkis.booking@gmail.com</a>
+            <div class="contact-sub">Для связи, сотрудничества и коллабораций</div>
+        </div>
+
+        <div class="contact-card">
+            <div class="contact-icon">🎵</div>
+            <div class="contact-label">Яндекс Музыка</div>
+            <a href="https://music.yandex.ru/artist/25066831" target="_blank" class="contact-value">VYLKIS на Яндексе</a>
+            <div class="contact-sub">Слушать все треки</div>
+        </div>
+
+        <div class="contact-card">
+            <div class="contact-icon">🔵</div>
+            <div class="contact-label">ВКонтакте</div>
+            <a href="https://vk.com/artist/vylkis" target="_blank" class="contact-value">vk.com/artist/vylkis</a>
+            <div class="contact-sub">Анонсы, новости, общение</div>
+        </div>
+
+        <a href="index.html" class="back-link">← На главную</a>
+    </div>
+
+    <footer>© 2026 VYLKIS. ALL RIGHTS RESERVED.</footer>
+
+</body>
+</html>
