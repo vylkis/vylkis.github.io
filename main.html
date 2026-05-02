@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VYLKIS — Official</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%230a0a0a'/><text x='50%25' y='55%25' font-family='Oswald,sans-serif' font-size='38' font-weight='700' fill='%23ff1a1a' text-anchor='middle' dominant-baseline='middle'>V</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --card: #0d0d0d;
+            --red: #ff1a1a;
+            --red-glow: #ff1a1a44;
+            --text: #cccccc;
+            --muted: #666666;
+            --glass: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.06);
+            --vk-blue: #0077ff;
+            --yandex-red: #ff0000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 50% 0%, #ff1a1a11 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, #ff1a1a0a 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, #ff1a1a0a 0%, transparent 50%);
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+        }
+        .social-icon img,
+        .link-btn img {
+            pointer-events: auto;
+            -webkit-user-drag: auto;
+            user-select: auto;
+            -webkit-user-select: auto;
+            -moz-user-select: auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 60px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(5,5,5,0.8);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: #fff;
+        }
+        .logo span { color: var(--red); }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+        nav ul li a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover { color: #fff; }
+        nav ul li a.active { color: var(--red); }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 120px;
+            font-weight: 700;
+            letter-spacing: 20px;
+            color: #fff;
+            text-shadow: 0 0 80px var(--red-glow), 0 0 200px var(--red-glow);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        .hero h1 span {
+            color: var(--red);
+            text-shadow: 0 0 80px var(--red-glow), 0 0 200px var(--red-glow);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 80px var(--red-glow), 0 0 200px var(--red-glow); }
+            50% { text-shadow: 0 0 120px var(--red-glow), 0 0 300px var(--red-glow); }
+        }
+        .hero .tagline {
+            font-size: 16px;
+            letter-spacing: 8px;
+            color: var(--muted);
+            margin-top: -5px;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+        .hero .quote {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #555;
+            font-style: italic;
+            letter-spacing: 2px;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .coming-soon {
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cs-cover {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ffffff15;
+            margin-bottom: 14px;
+            filter: brightness(0.7);
+            transition: filter 0.4s;
+        }
+        .cs-cover:hover {
+            filter: brightness(1);
+        }
+
+        .cs-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 10px;
+            color: #fff;
+            padding: 8px 24px;
+            border: 1px solid #ffffff20;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(10px);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        .cs-sub {
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: #444;
+            text-transform: uppercase;
+        }
+
+        .hero .cta {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid #ffffff20;
+            background: rgba(255,255,255,0.03);
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .social-icon img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            filter: brightness(0.6);
+            transition: filter 0.3s;
+        }
+        .social-icon:hover {
+            border-color: #fff5;
+            transform: translateY(-2px);
+        }
+        .social-icon:hover img {
+            filter: brightness(1);
+        }
+        .social-icon.ym:hover {
+            border-color: var(--yandex-red);
+            box-shadow: 0 0 20px rgba(255,0,0,0.2);
+        }
+        .social-icon.vk:hover {
+            border-color: var(--vk-blue);
+            box-shadow: 0 0 20px rgba(0,119,255,0.2);
+        }
+        .social-icon.tt:hover {
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            letter-spacing: 8px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .section-title span { color: var(--red); }
+
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+        .track-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .track-card:hover {
+            border-color: #ffffff15;
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .track-card .cover {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--border);
+            background: #0a0a0a;
+            transition: filter 0.4s;
+        }
+        .track-card:hover .cover {
+            filter: brightness(1.1);
+        }
+        .track-card .info {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .track-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .track-card .artist {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .track-card .release-date {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #444;
+            margin-bottom: 18px;
+        }
+        .track-card .genre {
+            display: inline-block;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--red);
+            text-transform: uppercase;
+            border: 1px solid #ff1a1a33;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+
+        .track-card .buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid #ffffff15;
+            background: rgba(255,255,255,0.02);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .link-btn img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            filter: brightness(0.5);
+            transition: filter 0.3s;
+        }
+        .link-btn:hover img {
+            filter: brightness(1);
+        }
+        .link-btn.primary:hover {
+            border-color: var(--yandex-red);
+            box-shadow: 0 0 15px rgba(255,0,0,0.15);
+            background: rgba(255,0,0,0.08);
+        }
+        .link-btn.vk:hover {
+            border-color: var(--vk-blue);
+            box-shadow: 0 0 15px rgba(0,119,255,0.15);
+            background: rgba(0,119,255,0.08);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #333;
+            font-size: 11px;
+            letter-spacing: 3px;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">VYL<span>KIS</span></div>
+        <ul>
+            <li><a href="main.html" class="active">Главная</a></li>
+            <li><a href="music.html">Музыка</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>VYL<span>KIS</span></h1>
+        <p class="tagline">Phonk / Electronic</p>
+        <div class="cta">
+            <a href="https://music.yandex.ru/artist/25066831" target="_blank" class="social-icon ym" title="Яндекс Музыка">
+                <img src="znaki/yandex.png" alt="Яндекс Музыка">
+            </a>
+            <a href="https://vk.com/artist/vylkis" target="_blank" class="social-icon vk" title="ВКонтакте">
+                <img src="znaki/vk.png" alt="ВКонтакте">
+            </a>
+             <a href="https://tiktok.com/@vylkis" target="_blank" class="social-icon tt" title="TikTok">
+                <img src="znaki/tiktok.png" alt="TikTok">
+            </a>
+        </div>
+        <p class="quote">Музыка — это не умение передать эмоции, а чувствовать их на себе.</p>
+        <div class="coming-soon">
+            <span class="cs-label">RESTRICTED HOPES</span>
+            <span class="cs-sub">Альбом в разработке</span>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title"><span>//</span> Последние релизы <span>//</span></h2>
+        <div class="tracks-grid" id="tracksContainer"></div>
+    </section>
+
+    <footer>© 2026 VYLKIS. ALL RIGHTS RESERVED.</footer>
+
+    <script>
+        const tracks = [
+            { 
+                id: 'killxst', 
+                name: 'KILLXST', 
+                artist: 'vylkis',
+                genre: 'Electronic', 
+                releaseDate: '01.04.2026',
+                cover: 'images/killxst.jpg', 
+                yandex: 'https://music.yandex.ru/album/41153334', 
+                vk: 'https://vk.com/audio-2001722037_147722037' 
+            },
+            { 
+                id: 'paralizik', 
+                name: 'PARALIZIK', 
+                artist: 'vylkis',
+                genre: 'Phonk', 
+                releaseDate: '13.02.2026',
+                cover: 'images/paralizik.jpg', 
+                yandex: 'https://music.yandex.ru/album/40464565', 
+                vk: 'https://vk.com/audio-2001563587_146563587' 
+            },
+            { 
+                id: 'minonphonia', 
+                name: 'MINONPHONIA', 
+                artist: 'vylkis',
+                genre: 'Phonk', 
+                releaseDate: '23.01.2026',
+                cover: 'images/minonphonia.jpg', 
+                yandex: 'https://music.yandex.ru/album/40292211', 
+                vk: 'https://vk.com/audio-2001277216_146277216' 
+            },
+            { 
+                id: 'repressed', 
+                name: 'REPRESSED', 
+                artist: 'vylkis & wrsxxqw',
+                genre: 'Phonk', 
+                releaseDate: '05.12.2025',
+                cover: 'images/repressed.jpg', 
+                yandex: 'https://music.yandex.ru/album/39376080', 
+                vk: 'https://vk.com/audio-2001876917_144876917' 
+            }
+        ];
+
+        function renderTracks() {
+            const container = document.getElementById('tracksContainer');
+            container.innerHTML = '';
+            tracks.forEach(track => {
+                const card = document.createElement('div');
+                card.className = 'track-card';
+                card.innerHTML = `
+                    <img src="${track.cover}" alt="${track.name}" class="cover">
+                    <div class="info">
+                        <div>
+                            <h3>${track.name}</h3>
+                            <p class="artist">${track.artist}</p>
+                            <p class="release-date">${track.releaseDate}</p>
+                            <span class="genre">${track.genre}</span>
+                        </div>
+                        <div class="buttons">
+                            <a href="${track.yandex}" target="_blank" class="link-btn primary" title="Яндекс Музыка">
+                                <img src="znaki/yandex.png" alt="Яндекс">
+                            </a>
+                            <a href="${track.vk}" target="_blank" class="link-btn vk" title="ВКонтакте">
+                                <img src="znaki/vk.png" alt="ВК">
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        renderTracks();
+    </script>
+</body>
+</html>
