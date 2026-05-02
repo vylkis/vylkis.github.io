@@ -255,13 +255,13 @@
     </nav>
 
     <div class="content">
-        <h1 class="page-title">МУЗЫ<span>КА</span></h1>
+        <h1 class="page-title">МУЗ<span>ЫКА</span></h1>
 
         <div class="track-player" data-audio="audio/repressed.mp3">
             <img src="images/repressed.jpg" alt="REPRESSED" class="cover-small">
             <div class="track-info">
                 <div class="track-name">REPRESSED</div>
-                <div class="track-artist">VYLKIS & WRSXXQW · Phonk</div>
+                <div class="track-artist">VYLKIS · Phonk</div>
                 <div class="progress-area">
                     <div class="progress-bar"><div class="progress-fill"></div></div>
                     <div class="time-row">
@@ -363,9 +363,13 @@
     <footer>© 2026 VYLKIS. ALL RIGHTS RESERVED.</footer>
 
     <script>
+        const allAudios = [];
+
         document.querySelectorAll('.track-player').forEach(player => {
             const audioSrc = player.dataset.audio;
             const audio = new Audio(audioSrc);
+            allAudios.push(audio);
+
             const playBtn = player.querySelector('.play-btn');
             const progressFill = player.querySelector('.progress-fill');
             const progressBar = player.querySelector('.progress-bar');
@@ -375,60 +379,79 @@
             const volumePopup = player.querySelector('.volume-popup');
             const volumeSlider = player.querySelector('.volume-slider-vertical');
             const volValue = player.querySelector('.vol-value');
+
             let isPlaying = false;
 
             audio.addEventListener('loadedmetadata', () => {
                 totalTimeEl.textContent = formatTime(audio.duration);
             });
+
             audio.addEventListener('timeupdate', () => {
                 if (isNaN(audio.duration)) return;
                 const progress = (audio.currentTime / audio.duration) * 100;
                 progressFill.style.width = progress + '%';
                 currentTimeEl.textContent = formatTime(audio.currentTime);
             });
+
             audio.addEventListener('ended', () => {
                 isPlaying = false;
                 playBtn.textContent = '▶';
                 progressFill.style.width = '0%';
                 currentTimeEl.textContent = '0:00';
             });
+
             playBtn.addEventListener('click', () => {
                 if (isPlaying) {
                     audio.pause();
                     playBtn.textContent = '▶';
+                    isPlaying = false;
                 } else {
-                    document.querySelectorAll('audio').forEach(a => { if (a !== audio) a.pause(); });
+                    // Остановить все аудио и сбросить все плееры
+                    allAudios.forEach(a => {
+                        a.pause();
+                        a.currentTime = 0;
+                    });
+                    document.querySelectorAll('.play-btn').forEach(b => b.textContent = '▶');
+                    document.querySelectorAll('.progress-fill').forEach(f => f.style.width = '0%');
+                    document.querySelectorAll('.current-time').forEach(t => t.textContent = '0:00');
+
                     audio.play();
                     playBtn.textContent = '⏸';
+                    isPlaying = true;
                 }
-                isPlaying = !isPlaying;
             });
+
             progressBar.addEventListener('click', (e) => {
                 if (isNaN(audio.duration)) return;
                 const rect = progressBar.getBoundingClientRect();
                 const percent = (e.clientX - rect.left) / rect.width;
                 audio.currentTime = percent * audio.duration;
             });
+
             volumeSlider.addEventListener('input', () => {
                 audio.volume = volumeSlider.value / 100;
                 volValue.textContent = volumeSlider.value + '%';
                 updateVolumeIcon();
             });
+
             volumeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 volumePopup.classList.toggle('visible');
             });
+
             document.addEventListener('click', (e) => {
                 if (!player.querySelector('.volume-wrapper').contains(e.target)) {
                     volumePopup.classList.remove('visible');
                 }
             });
+
             function updateVolumeIcon() {
                 const vol = audio.volume;
                 if (vol > 0.5) volumeBtn.textContent = '🔊';
                 else if (vol > 0) volumeBtn.textContent = '🔉';
                 else volumeBtn.textContent = '🔇';
             }
+
             function formatTime(seconds) {
                 if (isNaN(seconds)) return '0:00';
                 const min = Math.floor(seconds / 60);
@@ -437,5 +460,6 @@
             }
         });
     </script>
+
 </body>
 </html>
