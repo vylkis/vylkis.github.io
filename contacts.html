@@ -96,6 +96,13 @@
             font-size: 36px;
             margin-bottom: 15px;
         }
+        .contact-icon-img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            filter: brightness(0.6);
+            margin-bottom: 15px;
+        }
         .contact-label {
             font-family: 'Oswald', sans-serif;
             font-size: 14px;
@@ -109,6 +116,7 @@
             color: #fff;
             letter-spacing: 2px;
             transition: color 0.3s;
+            word-break: break-all;
         }
         .contact-value:hover {
             color: var(--red);
@@ -145,6 +153,40 @@
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+        /* ========== ТОЛЬКО ДЛЯ ТЕЛЕФОНОВ ========== */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 16px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            nav ul {
+                gap: 15px;
+            }
+            nav ul li a {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+            .content {
+                padding: 130px 16px 60px;
+            }
+            .page-title {
+                font-size: 36px;
+                letter-spacing: 6px;
+                margin-bottom: 40px;
+            }
+            .contact-card {
+                padding: 30px 20px;
+            }
+            .contact-value {
+                font-size: 15px;
+            }
+            footer {
+                padding: 25px 15px;
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -169,14 +211,14 @@
         </div>
 
         <div class="contact-card">
-            <div class="contact-icon">🎵</div>
+            <img src="znaki/yandex.png" alt="Яндекс" class="contact-icon-img">
             <div class="contact-label">Яндекс Музыка</div>
             <a href="https://music.yandex.ru/artist/25066831" target="_blank" class="contact-value">VYLKIS на Яндексе</a>
             <div class="contact-sub">Слушать все треки</div>
         </div>
 
         <div class="contact-card">
-            <div class="contact-icon">🔵</div>
+            <img src="znaki/vk.png" alt="ВК" class="contact-icon-img">
             <div class="contact-label">ВКонтакте</div>
             <a href="https://vk.com/artist/vylkis" target="_blank" class="contact-value">vk.com/artist/vylkis</a>
             <div class="contact-sub">Анонсы, новости, общение</div>

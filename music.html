@@ -241,6 +241,60 @@
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+        /* ========== ТОЛЬКО ДЛЯ ТЕЛЕФОНОВ ========== */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 16px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            nav ul {
+                gap: 15px;
+            }
+            nav ul li a {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+            .content {
+                padding: 130px 12px 50px;
+            }
+            .page-title {
+                font-size: 36px;
+                letter-spacing: 6px;
+                margin-bottom: 35px;
+            }
+            .track-player {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+                padding: 18px;
+            }
+            .cover-small {
+                width: 70px;
+                height: 70px;
+            }
+            .track-name {
+                font-size: 18px;
+            }
+            .track-artist {
+                font-size: 10px;
+                margin-bottom: 8px;
+            }
+            .controls {
+                gap: 10px;
+            }
+            .play-btn {
+                font-size: 18px;
+            }
+            .volume-btn {
+                font-size: 16px;
+            }
+            footer {
+                padding: 25px 15px;
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -406,7 +460,6 @@
                     playBtn.textContent = '▶';
                     isPlaying = false;
                 } else {
-                    // Остановить все аудио и сбросить все плееры
                     allAudios.forEach(a => {
                         a.pause();
                         a.currentTime = 0;
